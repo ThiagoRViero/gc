@@ -1,0 +1,19 @@
+{
+    "name": "thiagorviero/gc",
+    "description": "Aplicacao de gerenciamento de chamados",
+    "type": "no",
+    "license": "no",
+    "autoload": {
+        "psr-4": {
+            "Thiagorviero\\Gc\\": "src/",
+            "Gc\\Resources\\": "resources/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thiago Rocha Viero",
+            "email": "thiagorviero@gmail.com"
+        }
+    ],
+    "require": {}
+}
