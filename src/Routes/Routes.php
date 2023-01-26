@@ -30,6 +30,16 @@ class Routes extends Bootstrap
             'controller' => 'TicketController',
             'action' => 'listTickets'
         ];
+        $this->route['login'] = [
+            'route' => '/login',
+            'controller' => 'indexController',
+            'action' => 'login'
+        ];
+        $this->route['authenticate'] = [
+            'route' => '/authenticate',
+            'controller' => 'autController',
+            'action' => 'authenticate'
+        ];
 
         return $this->route;
     }

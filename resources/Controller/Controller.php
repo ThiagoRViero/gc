@@ -9,6 +9,7 @@ abstract class Controller
 
     function __construct($action)
     {
+        //autenticação
         $this->$action();
     }
 

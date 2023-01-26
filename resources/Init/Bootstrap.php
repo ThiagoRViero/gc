@@ -18,7 +18,6 @@ abstract class Bootstrap
         $render = $this->takeRoute();
 
         $controllerPath = 'Thiagorviero\\Gc\\Controllers\\' . ucfirst($render['controller']);
-
         new $controllerPath($render['action']);
     }
 

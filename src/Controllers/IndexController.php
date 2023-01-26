@@ -8,10 +8,11 @@ class IndexController extends Controller
 {
     function login()
     {
-        echo 'IndexController';
+        $this->render('login', 'layoutLogin');
     }
     function notFound()
     {
+
         echo 'Pagina não encontrada';
     }
 }
