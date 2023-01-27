@@ -1,3 +1,13 @@
 <div>
-    <p>testando</p>
+    <?php
+    foreach ($this->tickets as $ticket) { ?>
+        <div class="w-100 ">
+            <div class="btn-group">
+                <p class="btn btn-secondary">ID: <?= $ticket['CH_ID'] ?></p>
+                <p class="btn btn-secondary opacity-25 "><?= $ticket['CH_DESCRICAO'] ?></p>
+                <p class="btn btn-primary opacity-25 "><?= $ticket['ES_DESCRICAO'] ?></p>
+            </div>
+        </div>
+    <?php
+    } ?>
 </div>

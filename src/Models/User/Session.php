@@ -40,6 +40,20 @@ class Session extends Models
         }
     }
 
+    static public function logout()
+    {
+        echo ('teste');
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        if (isset($_SESSION['id'])) {
+            $_SESSION = [];
+            unset($_SESSION);
+            session_destroy();
+            header('Location: /login');
+        }
+    }
+
     private function initSession()
     {
         if (!isset($_SESSION)) {

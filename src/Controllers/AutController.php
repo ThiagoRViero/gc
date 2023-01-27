@@ -4,8 +4,8 @@ namespace Thiagorviero\Gc\Controllers;
 
 use Exception;
 use Gc\Resources\Controller\Controller;
-use Gc\Resources\Models\Models;
 use InvalidArgumentException;
+use Thiagorviero\Gc\Models\User\Session;
 use Thiagorviero\Gc\Models\User\User;
 
 class AutController extends Controller
@@ -25,5 +25,10 @@ class AutController extends Controller
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    function logout()
+    {
+        Session::logout();
     }
 }

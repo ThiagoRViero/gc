@@ -3,10 +3,17 @@
 namespace Thiagorviero\Gc\Controllers;
 
 use Gc\Resources\Controller\Controller;
+use Thiagorviero\Gc\Models\Ticket\Ticket;
 use Thiagorviero\Gc\Models\User\Session;
 
 class TicketController extends Controller
 {
+    protected $tickets;
+    function __construct($action)
+    {
+        $this->tickets = new Ticket;
+        parent::__construct($action);
+    }
     function home()
     {
         Session::verifySession();
@@ -16,8 +23,8 @@ class TicketController extends Controller
     function listTickets()
     {
         Session::verifySession();
+        $this->tickets = $this->tickets->listTickets();
         $this->render('list_tickets', 'layout');
-        //require_once $this->getLayout();
     }
 
     function getLayout()

@@ -12,9 +12,6 @@ class UserDAO extends DAO
 {
 
 
-    public function add()
-    {
-    }
     public function edit(int $id)
     {
     }

@@ -40,6 +40,11 @@ class Routes extends Bootstrap
             'controller' => 'autController',
             'action' => 'authenticate'
         ];
+        $this->route['logout'] = [
+            'route' => '/logout',
+            'controller' => 'autController',
+            'action' => 'logout'
+        ];
 
         return $this->route;
     }
