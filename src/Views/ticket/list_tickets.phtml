@@ -1,12 +1,14 @@
-<div>
+<div class="mt-3 mb-3">
     <?php
     foreach ($this->tickets as $ticket) { ?>
-        <div class="w-100 ">
-            <div class="btn-group">
-                <p class="btn btn-secondary">ID: <?= $ticket['CH_ID'] ?></p>
-                <p class="btn btn-secondary opacity-25 "><?= $ticket['CH_DESCRICAO'] ?></p>
-                <p class="btn btn-primary opacity-25 "><?= $ticket['ES_DESCRICAO'] ?></p>
+        <div class=" p-0 m-0 container" id="<?= $ticket['CH_ID'] ?>">
+            <form action="/abrir-ticket?id=" <?= $ticket['CH_ID'] ?>></form>
+            <div class="btn-group p-0 m-0 h-2 pt-2 w-100 row">
+                <input type="submit" class="btn btn-secondary p-1 m-0 col-1 text-break" value="ID: <?= $ticket['CH_ID'] ?>">
+                <input type="submit" class="btn btn-secondary opacity-25 p-1 m-0 col-8 text-break text-nowrap overflow-hidden" value="<?= $ticket['CH_DESCRICAO'] ?>">
+                <input type="submit" class="btn btn-primary opacity-25 p-1 m-0 col-1 text-break" value="<?= $ticket['ES_DESCRICAO'] ?>">
             </div>
+            </form>
         </div>
     <?php
     } ?>

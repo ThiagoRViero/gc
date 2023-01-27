@@ -16,34 +16,34 @@
 <body class="container " onload="carregar()">
 
     <header>
-        <nav class='navbar navbar-primary bg-light navbar-expand-md mt-2 rounded border'>
+        <nav class='navbar bg-light navbar-expand-md mt-2 rounded border'>
             <div class="container-fluid">
-                <a href="/home" class="navbar-brand text-success text-opacity-50 strong fw-semibold">Gerenciador de chamados</a>
+                <a href="/home" class="navbar-brand text-dark text-opacity-50 strong fw-bold fs-2">Gerenciador de chamados</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="#menu" aria-expanded="false" aria-label="Menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="nav ms-auto me-2 d-block d-md-flex list-group list-group-horizontal rounded ">
+                <div class="collapse navbar-collapse" id="menu" class="container">
+                    <ul class="nav ms-auto me-2 d-block d-md-flex list-group list-group-horizontal rounded row">
 
-                        <li class="nav-item list-group-item p-0 bg-success bg-opacity-10 ">
-                            <a href="/criar_chamado" class="nav-link ">Novo chamado</a>
+                        <li class="nav-item list-group-item p-0 bg-success bg-opacity-50 col-md-2 text-nowrap overflow-hidden text-center">
+                            <a href="/criar_chamado" class="nav-link "><i class="fas fa-plus"></i></a>
                         </li>
 
-                        <li class="nav-item list-group-item p-0 bg-success bg-opacity-10">
-                            <a href="/apresenta_chamados" class="nav-link">Chamados</a>
+                        <li class="nav-item list-group-item p-0 bg-success bg-opacity-10 col-md-4 m-0 text-nowrap overflow-hidden text-lg-center">
+                            <a href="/apresenta_chamados" class="nav-link m-0 ps-1 pe-1 fw-bold fs-6">Consultar tickets</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item col-md-5 m-0 p-0 text-center">
                             <form class="d-flex" role="search" method="get" action="/editar_chamado">
-                                <input class="m-0 list-group-item form-control rounded-0 bg-primary bg-opacity-10" type="search" placeholder="Informe o nº do chamado" aria-label="Search" name="id">
-                                <button class="m-0 list-group-item bg-success text-light" type="submit">
+                                <input class="m-0 list-group-item form-control rounded-0 bg-primary bg-opacity-10 text-center" type="search" placeholder="Nº ticket" aria-label="Search" name="id">
+                                <button class="m-0 list-group-item bg-primary text-light" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </form>
                         </li>
-                        <li>
-                            <a href="/logout" class="m-0 list-group-item rounded-end bg-danger text-light">
+                        <li class="nav-item col-md-1 m-0 p-0">
+                            <a href="/logout" class="m-0 ps-md-2 ps-lg-3 list-group-item rounded-end bg-danger text-light">
                                 <i class="fas fa-sign-out-alt"></i>
                             </a>
                         </li>

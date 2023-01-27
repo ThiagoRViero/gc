@@ -22,10 +22,10 @@ class TicketDAO extends DAO
     public function delete(int $id)
     {
     }
-    public function get(int|string $user)
+    public function get(int|string $id)
     {
     }
-    public function getList(string $searchFor = null, string|int $user = null, int $status = null)
+    public function getList(string $searchFor = null, string|int $user = null, int $status = 1, int $limit = 20, int $offset = 0)
     {
         $query = "SELECT CHAMADOS.CH_DT_CRIACAO, CHAMADOS.CH_ID, CHAMADOS.CH_DESCRICAO, CHAMADOS.ID_USUARIO, USUARIOS.US_NOME, USUARIOS.US_ID, CHAMADOS.ID_ATENDENTE, CHAMADOS.ID_ESTADO, ESTADO.ES_DESCRICAO FROM CHAMADOS INNER JOIN USUARIOS ON USUARIOS.US_ID = CHAMADOS.ID_USUARIO INNER JOIN ESTADO ON ESTADO.ES_ID = CHAMADOS.ID_ESTADO";
 
@@ -35,6 +35,8 @@ class TicketDAO extends DAO
         if (isset($user)) {
             if (str_contains($query, "WHERE")) {
                 $query .= " AND";
+            } else {
+                $query .= " WHERE";
             }
             if (is_int($user)) {
                 $query .= " USUARIOS.US_ID = :user";
@@ -46,11 +48,18 @@ class TicketDAO extends DAO
         if (isset($status)) {
             if (str_contains($query, "WHERE")) {
                 $query .= " AND";
+            } else {
+                $query .= " WHERE";
             }
             $query .= " CHAMADOS.ID_ESTADO = :status";
         }
 
+        $query .= " LIMIT :limit OFFSET :offset";
+
         $stmt = $this->connection->prepare($query);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
         if (isset($searchFor)) {
             $stmt->bindValue(':searchFor', $searchFor);
