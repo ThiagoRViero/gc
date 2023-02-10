@@ -8,12 +8,13 @@ use PDO;
 
 class User extends Models
 {
+
     public function authenticate($user, $pass)
     {
         if (is_int($user)) {
             $query = "SELECT US.US_ID, US.US_NOME, US.US_SENHA, US.US_DESCRICAO, US.US_DT_CRIACAO, PE.AC_ID  FROM USUARIOS AS US INNER JOIN  PERMITE AS PE on PE.US_ID = PE.US_ID where US.US_ID=:USER";
         } else {
-            $query = "SELECT US.US_ID, US.US_NOME, US.US_SENHA, US.US_DESCRICAO, US.US_DT_CRIACAO, PE.AC_ID  FROM USUARIOS AS US INNER JOIN  PERMITE AS PE on PE.US_ID = PE.US_ID where US.US_NOME=:USER";
+            $query = "SELECT US.US_ID, US.US_NOME, US.US_SENHA, US.US_DESCRICAO, US.US_DT_CRIACAO, PE.AC_ID  FROM USUARIOS AS US INNER JOIN  PERMITE AS PE on US.US_ID = PE.US_ID where US.US_NOME=:USER";
         }
 
         try {
@@ -48,5 +49,28 @@ class User extends Models
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+    function listUserNames()
+    {
+        $list = new UserDAO;
+        $list = $list->getOnlyNames();
+        $filterList = array();
+        $userList[] = ['US_ID' => null, 'US_NOME' => null, 'US_ACCESS' => []];
+        $idAnterior = -1;
+        $i = -1;
+
+        foreach ($list as $user) {
+
+            $id = intVal($user['US_ID']);
+
+            if ($id != $idAnterior) {
+                $i++;
+                $filterList[$i]['US_ID'] = $user['US_ID'];
+                $filterList[$i]['US_NOME'] = $user['US_NOME'];
+                $idAnterior = $user['US_ID'];
+            }
+            $filterList[$i]['US_ACCESS'][] = $user['AC_ID'];
+        }
+        return $filterList;
     }
 }

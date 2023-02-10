@@ -3,7 +3,7 @@ USE GC;
 CREATE TABLE USUARIOS 
 ( 
  US_DESCRICAO VARCHAR(100),  
- US_DT_CRIACAO DATE NOT NULL,  
+ US_DT_CRIACAO DATETIME NOT NULL,  
  US_ID INT PRIMARY KEY AUTO_INCREMENT,  
  US_NOME VARCHAR(40) NOT NULL,
  US_SENHA VARCHAR(40) NOT NULL
@@ -12,7 +12,7 @@ CREATE TABLE USUARIOS
 CREATE TABLE ACESSOS 
 ( 
  AC_ID INT PRIMARY KEY AUTO_INCREMENT,  
- AC_DESCRICAO VARCHAR(20) NOT NULL
+ AC_DESCRICAO VARCHAR(30) NOT NULL
 ); 
 
 CREATE TABLE GRUPOS 
@@ -23,9 +23,11 @@ CREATE TABLE GRUPOS
 
 CREATE TABLE CHAMADOS 
 ( 
- CH_DT_CRIACAO DATE NOT NULL,  
+ CH_DT_CRIACAO DATETIME NOT NULL,  
+ CH_DT_ALTERACAO DATETIME NOT NULL,  
  CH_ID INT PRIMARY KEY AUTO_INCREMENT,  
  CH_DESCRICAO VARCHAR(300) NOT NULL,  
+ CH_RESOLUCAO TEXT NULL,
  ID_USUARIO INT NOT NULL,  
  ID_ATENDENTE INT,  
  ID_ESTADO INT NOT NULL
@@ -68,13 +70,15 @@ ALTER TABLE PERMITE ADD FOREIGN KEY(AC_ID) REFERENCES ACESSOS (AC_ID);
 ALTER TABLE INCLUI ADD FOREIGN KEY(AC_ID) REFERENCES ACESSOS (AC_ID);
 ALTER TABLE INCLUI ADD FOREIGN KEY(GP_ID) REFERENCES GRUPOS (GP_ID);
 
-INSERT INTO `acessos`(`AC_DESCRICAO`) VALUES ('abrir_chamado'),('encerrar_chamado'), ('conceder_acesso');
+INSERT INTO `acessos`(`AC_DESCRICAO`) VALUES ('Abrir chamados'),('Encerrar chamados de outro solicitante'), ('Conceder acessos'), ('Visualizar chamados de outro solicitante'),('Abrir chamados para outro');
 INSERT INTO `grupos`(`GP_DESCRICAO`) VALUES ('us_comum'),('us_administrador'), ('us_atendemte');
 INSERT INTO `inclui`(`AC_ID`, `GP_ID`) VALUES ('1','1'), ('1','2'), ('2','2'), ('1','3'), ('2','3'), ('3','3');
-INSERT INTO `usuarios`(`US_DESCRICAO`, `US_DT_CRIACAO`, `US_NOME`, `US_SENHA`) VALUES ('Administrador', '2022-12-15', 'adm', '123');
-INSERT INTO `permite`(`US_ID`, `AC_ID`) VALUES ('1', '1'), ('1', '2'), ('1', '3');
-INSERT INTO `estado` (`ES_DESCRICAO`, `ES_ID`) VALUES ('Aberto', '1');
-INSERT INTO `estado` (`ES_DESCRICAO`, `ES_ID`) VALUES ('Fechado', '2');
-INSERT INTO `estado` (`ES_DESCRICAO`, `ES_ID`) VALUES ('Andamento', '3');
-INSERT INTO `estado` (`ES_DESCRICAO`, `ES_ID`) VALUES ('Reaberto', '4');
+INSERT INTO `estado` (`ES_DESCRICAO`, `ES_ID`) VALUES ('Aberto', '1'),('Fechado', '2'), ('Andamento', '3'), ('Reaberto', '4');
 
+
+INSERT INTO `usuarios`(`US_DESCRICAO`, `US_DT_CRIACAO`, `US_NOME`, `US_SENHA`) VALUES ('Administrador', '2022-12-15 00:00:00', 'adm', '123');
+INSERT INTO `permite`(`US_ID`, `AC_ID`) VALUES ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5');
+
+
+INSERT INTO `usuarios`(`US_DESCRICAO`, `US_DT_CRIACAO`, `US_NOME`, `US_SENHA`) VALUES ('Usuario teste', '2022-12-15 00:00:00', 'user', '123');
+INSERT INTO `permite`(`US_ID`, `AC_ID`) VALUES ('2', '1');

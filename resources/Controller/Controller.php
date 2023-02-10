@@ -6,6 +6,7 @@ abstract class Controller
 {
 
     protected $view;
+    protected $data = array();
 
     function __construct($action)
     {

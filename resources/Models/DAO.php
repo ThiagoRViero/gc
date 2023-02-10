@@ -21,7 +21,7 @@ abstract class DAO
     }
 
     abstract protected function edit(int $id);
-    abstract protected function create();
+    //abstract protected function create();
     abstract protected function delete(int $id);
     abstract protected function get(int $id);
     abstract protected function getList();
