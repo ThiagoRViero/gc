@@ -6,12 +6,14 @@ use Exception;
 use Gc\Resources\Controller\Controller;
 use Thiagorviero\Gc\Models\Ticket\Ticket;
 use Thiagorviero\Gc\Models\User\Session;
+use Thiagorviero\Gc\Models\User\User;
 
 class TicketController extends Controller
 {
     function __construct($action)
     {
         $this->data['ticketRef'] = new Ticket;
+        $this->data['userRef'] = new User;
         parent::__construct($action);
     }
     function home()
@@ -23,11 +25,33 @@ class TicketController extends Controller
     function listTickets()
     {
         Session::verifySession();
+        $this->data['allStatus'] = $this->data['ticketRef']->getAllStatus();
+        $this->data['allUsers'] = $this->data['userRef']->listUserNames();
+
+        $requestor = isset($_GET['requestor']) && $_GET['requestor'] != '' ? intval($_GET['requestor']) : null;
+        $status = isset($_GET['status']) ? intval($_GET['status']) : 1;
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 20;
+        $offset = ($page - 1) * $limit;
+
+        $this->data['page'] = $page;
+        $this->data['requestorSelected'] = intval($requestor);
+        $this->data['statusSelected'] = intval($status);
+
         if (!array_search('4', $_SESSION['listAccess'])) {
-            $this->data['tickets'] = $this->data['ticketRef']->listTickets(user: $_SESSION['id']);
-        } else {
-            $this->data['tickets'] = $this->data['ticketRef']->listTickets();
+            $requestor = intval($_SESSION['id']);
         }
+
+        if ($status == null || $status == '') {
+            $list = $this->data['ticketRef']->listTickets(user: $requestor, offset: $offset);
+        } else {
+            $list = $this->data['ticketRef']->listTickets(user: $requestor, status: intval($status), offset: $offset);
+        }
+
+        $this->data['tickets'] = $list['tickets'];
+        $this->data['countTickets'] = $list['countTickets'];
+        $this->data['numberOfPages'] = $list['numberOfPages'];
+
         $this->render('list_tickets', 'layout');
     }
 
@@ -51,6 +75,10 @@ class TicketController extends Controller
             echo "Não foram passadas as informações necessárias.";
             return;
         };
+        if (strlen($_POST['description']) < 10) {
+            echo "Por gentileza descreva melhor a sua solicitação: (A descrição deve ter no mínimo 10 caracteres)";
+            return;
+        }
         echo $this->data['ticketRef']->createTicket($_POST['user'], $_POST['description']);
     }
     function editTicket()
@@ -95,7 +123,6 @@ class TicketController extends Controller
 
             if (strlen($description) < 10) {
                 $msg = "Por favor passe mais informações na descrição";
-                echo $description;
                 echo $msg;
                 return $msg;
             }
@@ -121,10 +148,12 @@ class TicketController extends Controller
             $this->data['allStatus'] = $this->data['ticketRef']->getAllStatus();
             $this->data['ticket'] = $this->data['ticketRef']->getTicket($id);
 
-            if ($_SESSION['id'] == $this->data['ticket']['ID_USUARIO'] || array_search('4', $_SESSION['listAccess'])) {
-                $this->render('edit_ticket', 'layout');
-            } else {
-                header('Location: /panel');
+            if (!is_bool($this->data['ticket'])) {
+                if ($_SESSION['id'] == $this->data['ticket']['ID_USUARIO'] || array_search('4', $_SESSION['listAccess'])) {
+                    $this->render('edit_ticket', 'layout');
+                } else {
+                    header('Location: /panel');
+                }
             }
         }
     }

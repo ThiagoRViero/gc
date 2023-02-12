@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="js/all.js"></script>
 
 </head>
 
@@ -34,7 +35,7 @@
                             <a href="/panel" class="nav-link m-0 ps-1 pe-1 fw-bold fs-6">Consultar tickets</a>
                         </li>
                         <li class="nav-item col-md-5 m-0 p-0 text-center">
-                            <form class="d-flex" role="search" method="get" action="/editar_chamado">
+                            <form class="d-flex" id="searchForm" role="search" method="get" action="/edit_ticket">
                                 <input class="m-0 list-group-item form-control rounded-0 bg-primary bg-opacity-10 text-center" type="search" placeholder="Nº ticket" aria-label="Search" name="id">
                                 <button class="m-0 list-group-item bg-primary text-light" type="submit">
                                     <i class="fas fa-search"></i>
@@ -48,9 +49,16 @@
                         </li>
                     </ul>
 
+
                 </div>
             </div>
         </nav>
+        <div class="row justify-content-end m-0 p-0 me-5">
+            <div id="divMessage" class="alert alert-dismissible fade show mt-2 m-0 p-0 fs-6 col-10 col-md-4 bg-danger bg-opacity-25" role="alert" hidden>
+                <p id="message" class="m-0 p-0 ps-1">Ticket não encontrado</p>
+                <button id="closeMessage" type="button" class="btn-close m-0 p-0 pe-1 pt-1" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
     </header>
 
     <article>

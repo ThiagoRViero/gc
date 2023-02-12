@@ -1,8 +1,47 @@
 <head>
     <title>GC: Consultar Tickets</title>
-
 </head>
 <div class="mt-3 mb-3">
+    <form action="" method="get">
+        <div class="input-group mt-3 mb-3">
+            <?php if (array_search('4', $_SESSION['listAccess'])) { ?>
+                <div class="form-floating">
+                    <select name="requestor" id="requestor" class="form-control">
+
+                        <option value=""></option>
+
+                        <?php foreach ($this->data['allUsers'] as $user) {
+                            $selected = "";
+                            if ($this->data['requestorSelected'] == $user['US_ID']) {
+                                $selected = "selected";
+                            }
+                        ?>
+                            <option value="<?= $user['US_ID'] ?>" <?= $selected ?>><?= $user['US_NOME'] ?></option>
+
+                        <?php } ?>
+
+                    </select>
+                    <label for="requestor">Solicitante:</label>
+                </div>
+            <?php } ?>
+            <div class="form-floating">
+                <select name="status" id="status" class="form-control">
+                    <?php foreach ($this->data['allStatus'] as $status) {
+                        $selected = "";
+                        if ($this->data['statusSelected'] == $status['ES_ID']) {
+                            $selected = "selected";
+                        }
+                    ?>
+                        <option value="<?= $status['ES_ID'] ?>" <?= $selected ?>><?= $status['ES_DESCRICAO'] ?></option>
+                    <?php } ?>
+                </select>
+                <label for="estado">Estado:</label>
+            </div>
+            <button class="btn btn-outline-secondary ps-4 pe-4" onclick="carregar(true)">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
     <?php
     foreach ($this->data['tickets'] as $ticket) { ?>
         <div class=" p-0 m-0 container" id="<?= $ticket['CH_ID'] ?>">
@@ -10,9 +49,9 @@
 
                 <input type="text" name="id" value="<?= $ticket['CH_ID'] ?>" hidden>
 
-                <div class="btn-group p-0 m-0 h-2 pt-2 w-100 row">
+                <div class="btn-group p-0 m-0 mt-2 h-2 w-100 row border border-dark">
                     <input type="submit" class="btn btn-secondary p-1 m-0 col-1 text-break" value="ID: <?= $ticket['CH_ID'] ?>" readonly>
-                    <input type="submit" class="btn btn-success opacity-25 p-1 m-0 col-8 text-break text-nowrap overflow-hidden" value="<?= $ticket['CH_DESCRICAO'] ?>" readonly>
+                    <input type="submit" class="btn bg-secondary bg-opacity-10  p-1 m-0 col-8 text-break text-nowrap overflow-hidden border" value="<?= $ticket['CH_DESCRICAO'] ?>" readonly>
                     <input type="submit" class="btn btn-primary opacity-25 p-1 m-0 col-1 text-break" value="<?= $ticket['ES_DESCRICAO'] ?>" readonly>
                 </div>
 
@@ -20,4 +59,56 @@
         </div>
     <?php
     } ?>
+    <nav aria-label="Navegação entre páginas" class="mt-2">
+        <?php
+        $url = $_SERVER['REQUEST_URI'];
+        $pos = strpos($url, '&page');
+        if ($pos > 0) {
+            $url = substr($url, 0, strlen($url) - $pos);
+        };
+        if (!strpos($url, '?')) {
+            $url = $url . '?';
+        }
+        ?>
+
+        <ul class="pagination d-flex justify-content-end">
+
+            <?php if (intval($this->data['page']) > 1) { ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= $url . "&page=" . (intval($this->data['page']) - 1) ?>">
+                        <<< </a>
+                </li>
+                <?php }
+
+            if ($this->data['numberOfPages'] > 4) {
+                $min = $this->data['page'] - 3;
+                $max = $this->data['page'] + 3;
+            } else {
+                $min = 1;
+                $max = $this->data['numberOfPages'];
+            }
+            $i = $min;
+
+            while ($i <= $max) {
+                if ($i == $this->data['page']) { ?>
+                    <li class="page-item active">
+                        <span class="page-link" href="<?= $url . "&page=" . $i ?>"><?= $i ?></span>
+                    </li>
+                <?php
+                    $i++;
+                    continue;
+                }
+                ?>
+                <li class="page-item ">
+                    <a class="page-link" href="<?= $url . "&page=" . $i ?>"><?= $i ?></a>
+                </li>
+            <?php $i++;
+            }
+            ?>
+
+            <?php if (intval($this->data['page']) < intval($this->data['numberOfPages'])) { ?>
+                <li class="page-item"><a class="page-link" href="<?= $url . "&page=" . (intval($this->data['page']) + 1) ?>"> >>> </a></li>
+            <?php } ?>
+        </ul>
+    </nav>
 </div>

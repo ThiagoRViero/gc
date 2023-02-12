@@ -39,9 +39,24 @@ $(document).ready(() => {
                         window.location.replace('/edit_ticket?id=' + res)
                         $(window).redirect('/edit_ticket?id=' + res)
                     })
+
+                    $('#divMessage').attr("hidden", false)
+                    $('#containerForm').addClass('mt-3')
                 }
 
-                console.log(res);
+
+                $('#divMessage').attr("hidden", false)
+                $('#containerForm').addClass('mt-3')
+
+                if (!isNaN(res)) {
+                    $('#divMessage').removeClass('alert-danger')
+                    $('#divMessage').addClass('alert-success')
+                    $('#message').html("Ticket alterado com sucesso!");
+                } else {
+                    $('#divMessage').removeClass('alert-success')
+                    $('#divMessage').addClass('alert-danger')
+                    $('#message').html(res);
+                }
             }
         })
 

@@ -17,7 +17,7 @@ $(document).ready(() => {
     })
 
     $("#formEditTicket").submit(form => {
-        form.preventDefault(form)
+        form.preventDefault()
         id = form.target[0].value
         requestor = form.target[1].value
         attendants = form.target[2].value
@@ -25,7 +25,6 @@ $(document).ready(() => {
         stat = form.target[4].value
         resolution = form.target[5].value
         ticket = { id, requestor, attendants, description, stat, resolution }
-        console.log(ticket)
         $.ajax({
             type: 'post',
             url: '/edit_ticket',
@@ -33,7 +32,6 @@ $(document).ready(() => {
             dataType: 'text',
             error: () => { return "Houve um erro na criação do seu ticket" },
             success: res => {
-                console.log(res)
 
                 $('#divMessage').attr("hidden", false)
                 $('#containerForm').addClass('mt-3')

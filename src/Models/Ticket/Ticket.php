@@ -12,11 +12,14 @@ class Ticket extends Models
         $this->dao = new TicketDAO;
         parent::__construct();
     }
-    public function listTickets(string $searchFor = null, string|int $user = null, int $status = 1, int $limit = 20, int $offset = 0)
+    public function listTickets(string $searchFor = null, $user = null, int $status = 1, int $limit = 20, int $offset = 0)
     {
 
-        $dao = $this->dao->getList($searchFor, $user, $status, $limit, $offset);
-        return $dao;
+        $list['tickets'] = $this->dao->getList($searchFor, $user, $status, $limit, $offset);
+        $list['countTickets'] = $this->dao->getCountList($searchFor, $user, $status, $limit, $offset);
+        $list['numberOfPages'] = ceil(intval($list['countTickets']) / $limit);
+
+        return $list;
     }
 
     public function createTicket($user, $description)
