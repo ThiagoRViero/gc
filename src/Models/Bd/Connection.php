@@ -14,6 +14,19 @@ class Connection
         try {
             return new PDO("mysql:host=localhost;dbname=gc", 'root', null);
         } catch (Exception $e) {
+            try{
+                $file = file_get_contents("bd/criar.sql");
+                $con = new PDO("mysql:host=localhost;", 'root', null);
+                $con->beginTransaction();
+                $stmt = $con->prepare($file);
+                $stmt->execute();
+                $con->commit(); 
+                
+
+            }catch(Exception $e2){
+                return 'Erro ao se conectar no banco de dados';
+            }
+            
             return 'Erro ao se conectar no banco de dados';
         }
     }

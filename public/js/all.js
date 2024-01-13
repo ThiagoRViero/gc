@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    $body.attr
     $("#searchForm").submit(form => {
         form.preventDefault()
         ticket = { 'id': form.target[0].value }
